@@ -31,20 +31,21 @@ public abstract class BaseActivity extends FragmentActivity {
     @BindView(R.id.loadingView)
     RelativeLayout loadingGroup;
     @BindView(R.id.contentView)
-    FrameLayout contentView;
+    protected FrameLayout contentView;
     @BindView(R.id.iv_back)
     ImageView ivBack;
     @BindView(R.id.title_name)
     TextView titleName;
 
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base);
+        ButterKnife.bind(this);
         if (layoutResourceId() != 0) {
             inflate(this, layoutResourceId(), contentView);
         }
-        ButterKnife.bind(this);
         init(savedInstanceState);
 
     }
