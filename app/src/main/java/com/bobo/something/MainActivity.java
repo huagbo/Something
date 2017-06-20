@@ -19,6 +19,7 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void init(Bundle savedInstanceState) {
+        addNavTitle("首页");
 
     }
 }

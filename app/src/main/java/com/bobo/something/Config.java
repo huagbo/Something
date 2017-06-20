@@ -5,5 +5,7 @@ package com.bobo.something;
  */
 
 public class Config {
-    public static String Base_URL_API="";
+    public static boolean Debug = false;/*线上环境*/
+
+    public static String Base_URL_API = "";
 }

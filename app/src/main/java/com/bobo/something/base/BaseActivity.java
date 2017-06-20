@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnKeyListener;
 import android.view.ViewGroup.LayoutParams;
-import android.view.ViewStub;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -33,8 +32,6 @@ public abstract class BaseActivity extends FragmentActivity {
     RelativeLayout loadingGroup;
     @BindView(R.id.contentView)
     FrameLayout contentView;
-    @BindView(R.id.tab_group)
-    ViewStub tabGroup;
     @BindView(R.id.iv_back)
     ImageView ivBack;
     @BindView(R.id.title_name)
