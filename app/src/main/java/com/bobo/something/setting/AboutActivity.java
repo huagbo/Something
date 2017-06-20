@@ -1,5 +1,7 @@
 package com.bobo.something.setting;
 
+import android.os.Bundle;
+
 import com.bobo.something.base.BaseActivity;
 
 /**
@@ -7,4 +9,8 @@ import com.bobo.something.base.BaseActivity;
  */
 
 public class AboutActivity extends BaseActivity {
+    @Override
+    protected void init(Bundle savedInstanceState) {
+
+    }
 }

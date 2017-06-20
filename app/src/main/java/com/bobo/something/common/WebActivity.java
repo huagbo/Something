@@ -1,5 +1,7 @@
 package com.bobo.something.common;
 
+import android.os.Bundle;
+
 import com.bobo.something.base.BaseActivity;
 
 /**
@@ -7,4 +9,8 @@ import com.bobo.something.base.BaseActivity;
  */
 
 public class WebActivity extends BaseActivity {
+    @Override
+    protected void init(Bundle savedInstanceState) {
+
+    }
 }
