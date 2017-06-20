@@ -44,6 +44,7 @@ public class BaseHttpRequest {
     }
 
     public BaseHttpRequest() {
+        mTag = this.getClass().getSimpleName();
     }
 
     public BaseHttpRequest(String url) {
@@ -183,6 +184,12 @@ public class BaseHttpRequest {
         return baseParam;
     }
 
+    Object mTag;
+
+    public void stopRequest() {
+        OkHttpUtils.getInstance().cancelTag(mTag);
+    }
+
     /**
      * post 请求
      *
@@ -193,6 +200,7 @@ public class BaseHttpRequest {
     private void postString(String url, String params, StringCallback callBack) {
         OkHttpUtils.postString()
                 .url(url)
+                .tag(mTag)
                 .headers(getHeaders())
                 .content(params)
                 .mediaType(MediaType.parse("application/json;charset=utf-8"))
@@ -209,6 +217,7 @@ public class BaseHttpRequest {
     private void doGetString(String url, StringCallback callBack) {
         OkHttpUtils.get()
                 .url(url)
+                .tag(mTag)
                 .headers(getHeaders())
                 .build()
                 .execute(callBack);
@@ -227,16 +236,17 @@ public class BaseHttpRequest {
                 .addFile("image", file.getName(), file)
                 .headers(getHeaders())
                 .url(url)
+                .tag(mTag)
                 .build()
                 .execute(callBack);
     }
-    public  Map<String, String> getHeaders() {
+
+    public Map<String, String> getHeaders() {
         Map<String, String> headers = new HashMap<>();
         headers.put("Authorization", "token");
-        
+
         return headers;
     }
-
 
 
     private class HttpResponseHandler extends StringCallback {
