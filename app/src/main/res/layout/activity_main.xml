@@ -12,13 +12,31 @@
         android:layout_centerInParent="true"
         android:layout_height="wrap_content"/>
 
-    <com.bobo.something.view.Flow
-        android:layout_width="wrap_content"
+    <com.bobo.something.view.FlowLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <TextView
+        <Button
             android:layout_width="wrap_content"
+            android:text="sdfsfasdfsdf"
             android:layout_height="wrap_content"/>
-    </com.bobo.something.view.Flow>
+        <Button
+            android:layout_width="wrap_content"
+            android:text="sdfsfasdfsdf"
+            android:layout_height="wrap_content"/>
+        <Button
+            android:layout_width="match_parent"
+            android:text="sdfsfasdfsdf"
+            android:layout_height="match_parent"/>
+        <Button
+            android:layout_width="match_parent"
+            android:text="sdfsfasdfsdf"
+            android:layout_height="match_parent"/>
+        <Button
+            android:layout_width="match_parent"
+            android:text="sdfsfasdfsdf"
+            android:layout_height="match_parent"/>
+
+    </com.bobo.something.view.FlowLayout>
 
 
 
