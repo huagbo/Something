@@ -8,8 +8,5 @@ import com.bobo.something.base.BaseActivity;
 
 public class WebActivity extends BaseActivity {
 
-    @Override
-    protected int layoutResourceId() {
-        return 0;
-    }
+
 }

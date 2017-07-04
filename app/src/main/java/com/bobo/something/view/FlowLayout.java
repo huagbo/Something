@@ -9,7 +9,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by my_computer on 2017/6/21.
+ * Created by huangbo on 2017/6/21.
+ *
+ * 流式布局实现
  */
 
 public class FlowLayout extends ViewGroup {

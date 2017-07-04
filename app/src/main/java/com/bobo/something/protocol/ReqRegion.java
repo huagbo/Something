@@ -11,5 +11,9 @@ public class ReqRegion extends BaseHttpRequest {
         url="";
         setRequestType(RequestTypePost);
     }
+    public ReqRegion() {/*请求网络获取地址库*/
+        url="";
+        setRequestType(RequestTypePost);
+    }
 
 }

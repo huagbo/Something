@@ -9,10 +9,8 @@ import com.bobo.something.base.BaseActivity;
  */
 
 public class AboutActivity extends BaseActivity {
-    @Override
-    protected int layoutResourceId() {
-        return 0;
-    }
+
+
 
     @Override
     protected void init(Bundle savedInstanceState) {

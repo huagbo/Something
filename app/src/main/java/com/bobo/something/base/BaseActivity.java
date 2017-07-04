@@ -15,6 +15,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bobo.something.R;
+import com.bobo.something.annotation.LayoutResUtil;
+import com.bobo.something.annotation.LayoutResUtil.LayoutId;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -24,7 +26,7 @@ import static android.view.View.inflate;
 /**
  * Created by huangbo on 2017/6/20.
  */
-
+@LayoutId(R.layout.activity_base)
 public abstract class BaseActivity extends FragmentActivity {
     @BindView(R.id.title_group)
     RelativeLayout titleGroup;
@@ -41,16 +43,18 @@ public abstract class BaseActivity extends FragmentActivity {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_base);
+        setContentView(LayoutResUtil.getLayoutRes(BaseActivity.class));
         ButterKnife.bind(this);
-        if (layoutResourceId() != 0) {
-            inflate(this, layoutResourceId(), contentView);
+        int layoutResId = LayoutResUtil.getLayoutRes(getClass());
+        if (layoutResId != 0) {
+            inflate(this, layoutResId, contentView);
         }
+
+
         init(savedInstanceState);
 
     }
 
-    protected abstract int layoutResourceId();
 
     protected void init(Bundle savedInstanceState) {
 
@@ -120,5 +124,11 @@ public abstract class BaseActivity extends FragmentActivity {
 
     protected Fragment getFragment() {
         return this.getSupportFragmentManager().findFragmentByTag(fragName);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+
     }
 }

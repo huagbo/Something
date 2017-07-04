@@ -5,4 +5,5 @@ package com.bobo.something;
  */
 
 public class Const {
+    public static final String REGION_JSON = "regionBean";
 }
