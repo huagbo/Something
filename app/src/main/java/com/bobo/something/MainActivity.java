@@ -1,5 +1,7 @@
 package com.bobo.something;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 
@@ -16,6 +18,12 @@ import butterknife.OnClick;
 @LayoutId(R.layout.activity_main)
 public class MainActivity extends BaseActivity {
 
+
+    public static void show(Context context){
+        Intent it= new Intent(context,MainActivity.class);
+        context.startActivity(it);
+    }
+
     @BindView(R.id.btn_choose_address)
     Button btnChooseAddress;
 
@@ -23,6 +31,11 @@ public class MainActivity extends BaseActivity {
     protected void init(Bundle savedInstanceState) {
         addNavTitle("首页");
 
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
     }
 
     @OnClick(R.id.btn_choose_address)
