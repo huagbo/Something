@@ -35,7 +35,7 @@ public class BaseHttpRequest {
     private String fileName;
     private boolean showLoading;
     private static String baseParam = null;
-    private OnHttpResult onResultCallback;
+
 
     public interface OnHttpResult {
         void onHttpSuccess(String data);
@@ -145,8 +145,7 @@ public class BaseHttpRequest {
 
     private void doHttpRequest(boolean showLoading, OnHttpResult callBack) {
         this.showLoading = showLoading;
-        this.onResultCallback = callBack;
-        HttpResponseHandler handler = new HttpResponseHandler();
+        HttpResponseHandler handler = new HttpResponseHandler(callBack);
         switch (requestType) {
             case RequestTypeGet:
                 doGetString(getFilterUrl(), handler);
@@ -250,13 +249,26 @@ public class BaseHttpRequest {
 
 
     private class HttpResponseHandler extends StringCallback {
+        private OnHttpResult onResultCallback;
+
+        public HttpResponseHandler(OnHttpResult onResultCallback) {
+            this.onResultCallback = onResultCallback;
+        }
 
         @Override
         public void onError(Call call, Exception e, int id) {
+            if (onResultCallback == null) {
+                return;
+            }
+            onResultCallback.onHttpFailure(e.getMessage());
         }
 
         @Override
         public void onResponse(String response, int id) {
+            if (onResultCallback == null) {
+                return;
+            }
+            onResultCallback.onHttpSuccess(response);
         }
     }
 }

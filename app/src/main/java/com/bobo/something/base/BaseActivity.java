@@ -15,8 +15,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bobo.something.R;
-import com.bobo.something.annotation.LayoutResUtil;
-import com.bobo.something.annotation.LayoutResUtil.LayoutId;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,34 +24,26 @@ import static android.view.View.inflate;
 /**
  * Created by huangbo on 2017/6/20.
  */
-@LayoutId(R.layout.activity_base)
 public abstract class BaseActivity extends FragmentActivity {
-    @BindView(R.id.title_group)
-    RelativeLayout titleGroup;
-    @BindView(R.id.loadingView)
-    RelativeLayout loadingGroup;
-    @BindView(R.id.contentView)
-    protected FrameLayout contentView;
-    @BindView(R.id.iv_back)
-    ImageView ivBack;
-    @BindView(R.id.title_name)
-    TextView titleName;
-
+    ViewHolder holder;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(LayoutResUtil.getLayoutRes(BaseActivity.class));
-        ButterKnife.bind(this);
-        int layoutResId = LayoutResUtil.getLayoutRes(getClass());
+        View view = View.inflate(this, R.layout.activity_base, null);
+        holder = new ViewHolder(view);
+        setContentView(view);
+        int layoutResId = layoutId();
         if (layoutResId != 0) {
-            inflate(this, layoutResId, contentView);
+            View contentChild = inflate(this, layoutResId, null);
+            holder.contentView.addView(contentChild);
         }
-
-
+        ButterKnife.bind(this);
         init(savedInstanceState);
 
     }
+
+    protected abstract int layoutId();
 
 
     protected void init(Bundle savedInstanceState) {
@@ -61,11 +51,11 @@ public abstract class BaseActivity extends FragmentActivity {
     }
 
     protected void showLoading(boolean cancelAble) {
-        loadingGroup.setVisibility(View.VISIBLE);
+        holder.loadingView.setVisibility(View.VISIBLE);
         if (!cancelAble) {
             return;
         }
-        loadingGroup.setOnKeyListener(new OnKeyListener() {
+        holder.loadingView.setOnKeyListener(new OnKeyListener() {
             @Override
             public boolean onKey(View v, int keyCode, KeyEvent event) {
                 switch (keyCode) {
@@ -85,7 +75,7 @@ public abstract class BaseActivity extends FragmentActivity {
     OnHideLoadingListener onHideLoadingListener;
 
     protected void hideLoading() {
-        loadingGroup.setVisibility(View.GONE);
+        holder.loadingView.setVisibility(View.GONE);
         if (onHideLoadingListener != null) {
             onHideLoadingListener.stopHttpRequest();
         }
@@ -95,12 +85,20 @@ public abstract class BaseActivity extends FragmentActivity {
         addNavTitle(name, null);
     }
 
+    protected void addNavTitle(String name, boolean hideBack) {
+        addNavTitle(name, false, null);
+    }
     protected void addNavTitle(String name, OnClickListener backListener) {
-        titleName.setText(name);
+        addNavTitle(name, false, backListener);
+    }
+
+    protected void addNavTitle(String name, boolean hideBack, OnClickListener backListener) {
+        holder.titleName.setText(name);
+        holder.ivBack.setVisibility(hideBack ? View.GONE : View.VISIBLE);
         if (backListener != null) {
-            ivBack.setOnClickListener(backListener);
+            holder.ivBack.setOnClickListener(backListener);
         } else {
-            ivBack.setOnClickListener(new OnClickListener() {
+            holder.ivBack.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     finish();
@@ -110,8 +108,8 @@ public abstract class BaseActivity extends FragmentActivity {
     }
 
     protected void setCustomTitle(View view) {
-        titleGroup.removeAllViews();
-        titleGroup.addView(view, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+        holder.titleGroup.removeAllViews();
+        holder.titleGroup.addView(view, LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
     }
 
     String fragName = null;
@@ -119,7 +117,7 @@ public abstract class BaseActivity extends FragmentActivity {
     protected void loadFragment(Fragment fg) {
         fragName = fg.getClass().getSimpleName();
         this.getSupportFragmentManager().beginTransaction().replace(R.id.contentView, fg, fragName).commit();
-        contentView.requestLayout();
+        holder.contentView.requestLayout();
     }
 
     protected Fragment getFragment() {
@@ -130,5 +128,22 @@ public abstract class BaseActivity extends FragmentActivity {
     protected void onDestroy() {
         super.onDestroy();
 
+    }
+
+    static class ViewHolder {
+        @BindView(R.id.iv_back)
+        ImageView ivBack;
+        @BindView(R.id.title_name)
+        TextView titleName;
+        @BindView(R.id.title_group)
+        RelativeLayout titleGroup;
+        @BindView(R.id.contentView)
+        FrameLayout contentView;
+        @BindView(R.id.loadingView)
+        RelativeLayout loadingView;
+
+        ViewHolder(View view) {
+            ButterKnife.bind(this, view);
+        }
     }
 }
